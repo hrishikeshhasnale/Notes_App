@@ -1,0 +1,123 @@
+{% include 'UserMgnt/dash_top.html' %}
+
+
+<style>
+
+
+</style>
+<div class="">
+	<div class="">
+		
+	
+				
+	</div>
+	<div class="container">
+		<div class="">
+			<h2><a style="text-transform:capitalize;margin-left:2%;">Hello,</a><a style="text-transform:capitalize;color:#FF6347;"><b>{{username}}</b></a></h2><br><br><br>
+		</div>
+	</div>
+	<div>
+		<div class="container">
+			
+			<div class="col-md-8">
+			<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#create_note">Create New Note</button>
+			<a href="{% url 'notes.views.mynotes' %}?uname={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mynotes">My Notes</button></a>
+			<a href="{% url 'notes.views.s_notes' %}?u_name={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes">Shared Notes</button></a>
+			
+				
+			</div>
+			<div class="col-md-2">
+				
+			</div>
+		</div>
+	</div>
+		
+</div>
+
+<!-- modal for create new note -->
+<div id="create_note" class="modal fade" role="dialog">
+  <div class="modal-dialog">
+
+    <!-- Modal content-->
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">&times;</button>
+        <h4 class="modal-title">Create New Note</h4>
+      </div>
+      <div class="modal-body">
+      <div class="form-group" id="">
+	  		<label class="col-sm-3">Note Name:</label>
+			<div class ="col-sm-8" id="">
+				<input class="form-control " type="text" id="nt_nm">
+						
+			</div>
+			<label></label>
+	</div><br>
+			<label class="col-sm-3" style="margin-right:15px;">Enter Note:</label>
+			<textarea class="form-control " name="nt_cnt" id="nt_cnt" style="width:350px;height:100px;"></textarea>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary btn-md" onclick="save_note();">Save Note</button>
+        <button type="button" class="btn btn-primary btn-md" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+
+
+
+
+
+
+<script>
+
+
+function save_note()
+{
+	console.log("save note btn");
+	var note_name = document.getElementById("nt_nm").value;
+	var note_cnt = document.getElementById("nt_cnt").value;
+	var crnt_user = "{{username}}"
+	
+
+		$.ajax({
+    		url: "{% url 'UserMgnt.views.save_note' %}",
+    		type: "GET",
+    		async:false,
+    		data: {'n_name':note_name,'n_cnt':note_cnt,'crnt_user':crnt_user},
+    		success: function(data){
+    			console.log("Data",data);
+    			if (data.status == 200)
+    			{	
+	    			swal({
+				      title: "Done!", 
+				      text: " Note has been saved Successfully!", 
+				      html: true,
+				      type:"success",
+				      confirmButtonText: 'OK',
+				      showCancelButton: false,
+				      closeOnConfirm: true
+				    });	
+    			}
+    			else{
+    				
+    				alert("something goes wrong");
+    			}		
+    		},
+    	
+    		error: function(data)
+    		{
+    		//console.log(data);
+    		}
+   		});
+	location.reload();
+	
+}
+
+
+</script>
+
+
+{% include 'UserMgnt/footer.html' %}

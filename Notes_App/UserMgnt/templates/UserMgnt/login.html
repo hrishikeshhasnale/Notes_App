@@ -1,0 +1,80 @@
+{% include 'UserMgnt/topbar.html' %}
+
+
+
+
+<style>
+
+</style>
+
+<div class="panel-body"  style="margin-top: 3%; margin-left: auto">
+	<div class="container-fluid">		
+		<div class="col-md-4">
+			<div class="jumbotron">
+				<form class="form-layout" method="POST" action="{% url 'dashboard'%}">
+		 			{% csrf_token %}
+					<p class="text-center mb30" id="usrmgt_umlog_usr">
+						<a data-toggle="tooltip" data-placement="bottom" >Welcome to <a style="color:#FF6347;"> Notes App</a></a><br>
+						Log In
+					</p>
+					
+					{% if msg %}
+						{% if smsg %}
+							<div class="alert alert-success" id="usrmgt_umlog_msg"><strong>{{msg}}</strong></div>
+						{% else %}  
+							<div class="alert alert-danger" id="usrmgt_umlog_msg1"><strong>{{msg}}</strong></div>
+ 						{% endif %}
+ 					{% endif %} 
+		  
+					 <div class="form-inputs" id="usrmgt_umlog_inpt">
+					 	{% if login_error == 1 %}
+					 	<div class="alert alert-danger" id="error">
+  							<strong>Invalid Username OR Password.</strong>
+						</div>
+						{% endif %}
+					 	<div class="form-group">
+				  				<input type="text" class="form-control" placeholder ="Username" id="usr" name="username">
+						</div>
+						<div class="form-group">
+						  		<input type="password" class="form-control" placeholder ="Password" id="pwd" name="password">
+						</div>
+					 
+					 	<p id="usrmgt_umlog_sign"></p>
+					 </div>
+		  
+					  <button class="btn btn-default btn-sm "  type="submit" id="id_signin" style="background-color:#FF6347;border:#FF6347">
+					  	<span>Log In</span>
+					  </button><br><br>
+		  
+		  			
+		  
+					  {% if redirect_field_value %}
+					  <input type="hidden" name="" value="" />
+					  {% endif %}
+					  
+						<p id="usrmgt_umlog_cnfg">
+						<input type="hidden" name="next" value="">
+						<a href="{% url 'new_acc' %}" >Create an account</a><br>
+						<a href="{% url 'forgot_pass' %} " >Forgot your password?</a>
+						{% if settings.USER_CREDENTIALS %} <i class="fa fa-warning" id="suggetion" data-toggle="tooltip" title="Support" data-placement="bottom"></i> {% endif %}
+						</p>
+						
+						
+				</form>
+				
+				<script>
+				
+				
+				</script>
+				
+			</div>
+			
+		</div>
+		
+		<div class="col-md-8">
+			<center><img class="img-responsive" src=" /static/images/1.png" width="" height=""></center>
+		</div>
+		
+	</div>
+</div>
+{% include 'UserMgnt/footer.html' %}

@@ -1,0 +1,77 @@
+ {% include 'UserMgnt/dash_top.html' %}
+ <div class="container">
+ 
+	 <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Update Note</h4>
+	      </div>
+	      <div class="modal-body">
+	      <div class="form-group" id="">
+		  		<label class="col-sm-3">Update Name:</label>
+				<div class ="col-sm-8" id="">
+					<input class="form-control " type="text" id="nt_nm_up" name="nt_nm_up" value="{{note_data.n_name}}" >
+							
+				</div>
+				<label></label>
+		</div><br>
+				<label class="col-sm-3" style="margin-right:15px;">Update Contents:</label>
+				<textarea class="form-control " name="nt_cnt_up" id="nt_cnt_up" style="width:350px;height:100px;">{{note_data.n_content}}</textarea>
+	      </div>
+	      <div class="modal-footer">
+	 		<button type="button" class="btn btn-primary btn-md" onclick="window.history.go(-1); return false;">Close</button>
+	        <button type="button" class="btn btn-primary btn-md" onclick="update();">Update Note</button></a>
+	      </div>
+	    </div>
+	 </div>   
+
+	 
+	 <script>
+	
+	 function update()
+	 {
+		 
+		var n_name = document.getElementById("nt_nm_up").value;
+		var n_cnt = document.getElementById("nt_cnt_up").value;
+		var n_id = "{{id}}";
+		
+		$.ajax({
+    		url: "{% url 'notes.views.update_note' %}",
+    		type: "GET",
+    		async:false,
+    		data: {'n_name':n_name , 'n_cnt':n_cnt , 'n_id':n_id},
+    		success: function(data){
+    			console.log("Data",data);
+    			if (data.status == 200)
+    			{	
+	    			/* swal({
+				      title: "Done!", 
+				      text: " Note has been updated Successfully!", 
+				      html: true,
+				      type:"success",
+				      confirmButtonText: 'OK',
+				      showCancelButton: false,
+				      closeOnConfirm: true
+				    });	 */
+	    			location.reload();
+				   
+				   
+    			}
+    			else{
+    				
+    				alert("something goes wrong");
+    				location.reload();
+    			}		
+    		},
+    	
+    		error: function(data)
+    		{
+    		//console.log(data);
+    		}
+   		});
+		 
+	 }
+	 
+
+	 
+	 
+	 </script>

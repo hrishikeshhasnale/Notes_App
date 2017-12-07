@@ -1,0 +1,59 @@
+{% include 'UserMgnt/header.html' %}
+{% include 'UserMgnt/topbar.html' %}
+
+<div class="panel-body"  style="margin-top: 3%; margin-left: auto">
+	<div class="container-fluid">		
+		<div class="col-md-4">
+			<div class="jumbotron">
+				<form class="form-layout" method="GET" action="{% url 'forgot_pass_change'%}">
+		 			{% csrf_token %}
+					<p class="text-center mb30" id="usrmgt_umlog_usr">
+						<a data-toggle="tooltip" data-placement="bottom" >Change Password</a><br>
+					</p>
+					{% if msg %}
+							<div class="alert alert-danger" id="frgt_pass_msg">{{msg}} </div>
+					{% endif %}
+					
+					{% if emsg %}
+							<div class="alert alert-danger" id="frgt_pass_msg">{{emsg}} </div>
+					{% endif %}  
+		  
+					 <div class="form-inputs" id="usrmgt_umlog_inpt">
+					 	
+					 	<div class="form-group">
+				  				<input type="text" class="form-control" placeholder ="  Username" id="frgt_pass_usr" name="f_uname">
+						</div>
+						<div class="form-group">
+						  		<input type="text" class="form-control" placeholder =" Registered Email" id="frgt_pass_email" name="f_email">
+						</div>
+						<div class="form-group">
+						  		<input type="password" class="form-control" placeholder =" Password" id="frgt_pass1" name="f_pass1">
+						</div>
+						<div class="form-group">
+						  		<input type="password" class="form-control" placeholder ="Confirm Password" id="frgt_pass2" name="f_pass2">
+						</div>
+					 
+					 	
+					 </div>
+		  
+					  <button class="btn btn-default btn-sm "  type="submit" id="id_signin" style="background-color:#FF6347;border:#FF6347">
+					  	<span>Change Password</span>
+					  </button><br><br>
+		  
+						
+						
+				</form>
+				
+				<script>
+				
+				
+				</script>
+				
+			</div>
+			
+		</div>
+
+		
+	</div>
+</div>
+{% include 'UserMgnt/footer.html' %}

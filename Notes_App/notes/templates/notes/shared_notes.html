@@ -1,0 +1,50 @@
+{% include 'UserMgnt/dash_top.html' %}
+
+
+<html>
+	<body>
+	<div class="panel mb25" id="shr_tb_1">
+		 	<div class="container" id="shr_tb_2">
+	 			<div class="table-responsive"  id="shr_tb_3">
+	 				<table id="table" border='1' class="table table-striped table-bordered table-hover table-condensed responsive mb lead_table">
+					
+						<thead>
+							<tr>
+								<th>Note Id</th>
+								<th>Note Name</th>
+								<th>Note Owner</th>
+								<th>Shared With</th>
+								<th>View</th>			
+							</tr>
+						</thead>
+						<tbody>	
+						{% for s in share %}
+							<tr>
+								<td>{{s.n_id_id}}</td>
+								<td>{{s.n_shrd_name}}</td>
+								<td>{{s.n_shrd_owner}}</td>
+								<td>{{s.n_shrd_with}}</td>
+								<td><a href="{% url 'view_note' %}?id={{s.n_id_id}}"><button type="button" class="btn btn-info btn-md">View Note</button></a></td>
+								
+							</tr>
+						{% endfor %}	
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+	</body>
+</html>
+
+<script>
+
+$(document).ready(function() {
+    $('#table').DataTable();
+} );
+
+</script>
+
+{% include 'UserMgnt/footer.html' %}

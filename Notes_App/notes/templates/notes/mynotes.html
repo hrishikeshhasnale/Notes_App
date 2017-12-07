@@ -1,0 +1,178 @@
+{% include 'UserMgnt/dash_top.html' %}
+
+
+<html>
+	<body>
+		<div class="panel mb25" id="mynotes_1">
+		 	<div class="container" id="mynotes_2">
+	 			<div class="table-responsive"  id="mynotes_3">
+	 				<table id="table" border='1' class="table table-striped table-bordered table-hover table-condensed responsive mb lead_table">
+					
+						<thead>
+							
+							<tr>
+								<th>Sr.No</th>
+								<th>Note Id</th>
+								<th>Note Owner Name</th>
+								<th>Note Name</th>
+								<th>Share Note</th>
+								<th>Update Note</th>
+								<th>Delete Note</th>
+								<th>View Note</th>
+								<th>Mark as Complete</th>
+								
+							</tr>
+						</thead>
+						<tbody>	
+							{% for n in note %}
+							<tr>
+								<td>{{ forloop.counter }}</td>
+								<td>{{n.n_id}}</td>
+								<td>{{n.n_owner}}</td>
+								<td>{{n.n_name}}</td>
+								
+								
+								<td><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" id="shr">Share Notes</button>
+									<!-- modal for share notes -->
+								<div id="share_notes" class="modal fade" role="dialog">
+								  <div class="modal-dialog">
+								
+								    <!-- Modal content-->
+								    <div class="modal-content">
+								      <div class="modal-header">
+								        <button type="button" class="close" data-dismiss="modal">&times;</button>
+								        <h4 class="modal-title">Share Note</h4>
+								      </div>
+								      <div class="modal-body">
+								      	 <div class="form-group" id="">
+									  		<label class="col-sm-3">Select User:</label>
+											<div class ="col-sm-9" id="sel_usr1">
+												<select class="form-control" name="sel_usr" id="sel_usr" multiple>
+													
+													{% for usr in all_u %}
+														<option value="{{ usr.username}}">{{ usr.username}}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<label></label>
+										</div><br>
+										<div class="form-group" id="">
+									  		<label class="col-sm-3">Note Content:</label>
+											<div class ="col-sm-9" id="txt_cnt">
+												<textarea class="form-control " name="nt_cnt_s" id="nt_cnt_s" disabled>{{n.n_content}}</textarea>
+											</div>
+											<label></label>
+										</div>
+								        
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-primary btn-md" onclick="shared_note();">Share Note</button>
+								        <button type="button" class="btn btn-primary btn-md" onclick="window.history.go(0); return false;">Close</button>
+								      </div>
+								    </div>
+								
+								  </div>
+								</div>
+								
+								
+								</td>
+								<!-- <td><button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#update_notes" id="up">Update Note</button></td> -->
+								<td><a href="{% url 'update_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up">Update Note</button></a></td>
+								
+								<td><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#confirm-delete" id="del">Delete Note</button><div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+								    <div class="modal-dialog">
+								        <div class="modal-content">
+								            <div class="modal-header">
+								                <center><h4 class="modal-title">Are You Sure ?</h4></center>
+								            </div>
+								           
+								            <div class="modal-body">
+								                <center><button type="button" class="btn btn-default"  onclick="window.history.go(0); return false;">Cancel</button>
+								                <a class="btn btn-danger btn-ok" href="{% url 'del_note' %}?id={{n.n_id}}" >Delete</a></center>
+								            </div>
+								        </div>
+								    </div></div></td>
+								    
+								<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md">View Note</button></a></td>
+								<td><button type="button" class="btn btn-primary btn-md" onclick="m_complete();">Mark is Complete</button></td>
+							</tr>
+							{% endfor %}
+							
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		
+		
+		
+
+		
+		
+	</body>
+</html>
+
+<script>
+
+$(document).ready(function() {
+	$('#table').DataTable({"bProcessing": true,});
+
+} );
+
+
+
+function shared_note()
+{
+	
+	
+	var s_nt = document.getElementById("nt_cnt_s").value;
+	
+	var values = $('#sel_usr').val();
+ 
+    var usr = JSON.stringify(values);
+ 
+    
+	$.ajax({
+		url: "{% url 'notes.views.shared' %}",
+		type: "GET",
+		async:false,
+		data: {'usr':usr,'n_cnt':s_nt},
+		success: function(data){
+			console.log("Data",data);
+			if (data.status == 200)
+			{	
+    			swal({
+			      title: "Done!", 
+			      text: " Note has been saved Successfully!", 
+			      html: true,
+			      type:"success",
+			      confirmButtonText: 'OK',
+			      showCancelButton: false,
+			      closeOnConfirm: true
+			    });	
+			}
+			else{
+				
+				alert("something goes wrong");
+			}		
+		},
+	
+		error: function(data)
+		{
+		//console.log(data);
+		}
+		});
+location.reload();
+	
+	
+}
+
+function m_complete()
+{
+	alert("sdsds");
+	 	
+}
+
+</script>
+
+{% include 'UserMgnt/footer.html' %}
