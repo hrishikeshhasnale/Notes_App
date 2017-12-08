@@ -1,6 +1,5 @@
+{% include 'UserMgnt/header.html' %}
 {% include 'UserMgnt/dash_top.html' %}
-
-
 <style>
 
 
@@ -11,25 +10,23 @@
 	
 				
 	</div>
-	<div class="container">
+	<center><div class="container">
 		<div class="">
 			<h2><a style="text-transform:capitalize;margin-left:2%;">Hello,</a><a style="text-transform:capitalize;color:#FF6347;"><b>{{username}}</b></a></h2><br><br><br>
 		</div>
-	</div>
+	</div></center>
 	<div>
 		<div class="container">
 			
-			<div class="col-md-8">
-			<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#create_note">Create New Note</button>
-			<a href="{% url 'notes.views.mynotes' %}?uname={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mynotes">My Notes</button></a>
-			<a href="{% url 'notes.views.s_notes' %}?u_name={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes">Shared Notes</button></a>
-			
-				
-			</div>
+			<center><div class="col-md-12">
+				<button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#create_note" data-toggle="tooltip" title="Create New Note">Create New Note</button>
+				<a href="{% url 'notes.views.mynotes' %}?uname={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#mynotes" data-toggle="tooltip" title="My Notes">My Notes</button></a>
+				<a href="{% url 'notes.views.s_notes' %}?u_name={{username}}" ><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" data-toggle="tooltip" title="Shared Notes">Shared Notes</button></a>	
+			</div></center>
 			<div class="col-md-2">
 				
 			</div>
-		</div>
+		</div><img class="img-responsive" src=" /static/images/sharing.gif">
 	</div>
 		
 </div>
@@ -88,7 +85,7 @@ function save_note()
     		async:false,
     		data: {'n_name':note_name,'n_cnt':note_cnt,'crnt_user':crnt_user},
     		success: function(data){
-    			console.log("Data",data);
+    			
     			if (data.status == 200)
     			{	
 	    			swal({
@@ -100,6 +97,7 @@ function save_note()
 				      showCancelButton: false,
 				      closeOnConfirm: true
 				    });	
+	    			location.reload();
     			}
     			else{
     				
@@ -112,7 +110,7 @@ function save_note()
     		//console.log(data);
     		}
    		});
-	location.reload();
+	
 	
 }
 

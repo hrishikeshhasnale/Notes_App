@@ -24,7 +24,7 @@ def login(request):
     print("context")
     return render(request,'UserMgnt/login.html',context)
 
-
+# function check login form
 def dashboard(request):
     
     context= dict()
@@ -59,6 +59,8 @@ def new_acc(request):
     
     return render(request, 'UserMgnt/new_acc.html')
 
+
+# function for creating new user for system
 def acc_reg(request):
     
     context=dict()
@@ -67,12 +69,15 @@ def acc_reg(request):
     password = request.POST["new_pass"]
     email = request.POST["new_email"]
     try:
+#         checking all required fields are entered or not
         print("in 1st try")    
         if username !="" and password !="" and email !="":
             try:
+  
                 user_obj = User.objects.all()
                 print("user obj",user_obj)
                 
+#                if there is no user in system
                 if not user_obj:
         
                     en_password=make_password(password, salt=None, hasher='pbkdf2_sha256')
@@ -83,6 +88,7 @@ def acc_reg(request):
                     context['flag']= 1
                     return render(request, 'UserMgnt/new_acc.html',context)
                 
+#                 creating users for system
                 for i in user_obj:
                     print("in try",i.username)
                     if username != i.username and email != i.email:
@@ -94,20 +100,23 @@ def acc_reg(request):
                         context['smsg']=username
                         context['flag']= 1
                         return render(request, 'UserMgnt/new_acc.html',context)
-                        
+                    
+#                    if user is already exists in system
                     else:
                         context['msg']="User Already Exist"
                         print("in else")
                         return render(request, 'UserMgnt/new_acc.html',context)
             except:
-                pass 
+                pass
+            
+#        if user did not fill all required fields
         else:
             context['msg']="Enter All Details"
             print("In 2 else ")    
             return render(request, 'UserMgnt/new_acc.html',context)
 
             
-                    
+#        if user did not fill all required fields              
     except:
         context['msg']="Enter All Details"
         print("In except")    
@@ -124,6 +133,8 @@ def forgot_pass(request):
     
     return render(request, 'UserMgnt/forgot_pass.html')
 
+
+# function, if user forgot password
 def forgot_pass_change(request):
     
     context = dict()
@@ -137,7 +148,7 @@ def forgot_pass_change(request):
     password = User.objects.make_random_password()
     print("password is : "+password)
     
-    
+#     checking all required fields are entered or not
     if uname !="" and uemail !="" and pass1!="" and pass2!="":
         print("in if")
         try:
@@ -151,17 +162,23 @@ def forgot_pass_change(request):
                    user.save()
                    context['msg']="Password Has Beed Changed"
                    return render(request, 'UserMgnt/forgot_pass.html',context)
+               
+#                if both passwords are not match
                 else:
                     context['msg']="Both Password Should Match"
                     return render(request, 'UserMgnt/forgot_pass.html',context)
                 
+#            if email address for your account does not matches     
             else:
                 context['msg']="Invalid Email"
                 return render(request, 'UserMgnt/forgot_pass.html',context)
-        
+            
+#         if user does not exists in system
         except(User.DoesNotExist):
             context['msg']="User Does Not Exist"
             return render(request, 'UserMgnt/forgot_pass.html',context)
+        
+#    if user did not fill all required fields     
     else:
         print("in else")
         context['emsg']="Please Enter All details."
@@ -179,6 +196,7 @@ def forgot_pass_change(request):
 #         
 
 
+# creating new note and saving it in notes table
 @ajax
 def save_note(request):
     
@@ -188,9 +206,9 @@ def save_note(request):
     
     u = User.objects.get(username=crnt_user)
     uid=u.id
-    note = notes(n_name=n_name,n_owner=crnt_user,n_content=n_cnt,owner_id_id=uid)
+    note = notes(n_name=n_name,n_owner=crnt_user,n_content=n_cnt,owner_id_id=uid,mark_complete=0)
     note.save()
     print("note saved")
-    
+        
     
     

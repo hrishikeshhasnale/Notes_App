@@ -9,3 +9,4 @@ class notes(models.Model):
     n_owner = models.CharField(max_length=20)
     owner_id = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
     n_content = models.CharField(max_length=100)
+    mark_complete = models.IntegerField(blank=True)

@@ -1,6 +1,11 @@
+{% include 'UserMgnt/header.html' %}
 {% include 'UserMgnt/dash_top.html' %}
+<html>
+<head>
 
-
+<meta http-equiv="expires" content="-1">
+<meta http-equiv="Pragma" content="no-cache" />
+<meta http-equiv="Cache-Control" content="no-cache" />
 <html>
 	<body>
 		<div class="panel mb25" id="mynotes_1">
@@ -32,55 +37,12 @@
 								<td>{{n.n_name}}</td>
 								
 								
-								<td><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" id="shr">Share Notes</button>
-									<!-- modal for share notes -->
-								<div id="share_notes" class="modal fade" role="dialog">
-								  <div class="modal-dialog">
-								
-								    <!-- Modal content-->
-								    <div class="modal-content">
-								      <div class="modal-header">
-								        <button type="button" class="close" data-dismiss="modal">&times;</button>
-								        <h4 class="modal-title">Share Note</h4>
-								      </div>
-								      <div class="modal-body">
-								      	 <div class="form-group" id="">
-									  		<label class="col-sm-3">Select User:</label>
-											<div class ="col-sm-9" id="sel_usr1">
-												<select class="form-control" name="sel_usr" id="sel_usr" multiple>
-													
-													{% for usr in all_u %}
-														<option value="{{ usr.username}}">{{ usr.username}}</option>
-													{% endfor %}
-												</select>
-											</div>
-											<label></label>
-										</div><br>
-										<div class="form-group" id="">
-									  		<label class="col-sm-3">Note Content:</label>
-											<div class ="col-sm-9" id="txt_cnt">
-												<textarea class="form-control " name="nt_cnt_s" id="nt_cnt_s" disabled>{{n.n_content}}</textarea>
-											</div>
-											<label></label>
-										</div>
-								        
-								      </div>
-								      <div class="modal-footer">
-								        <button type="button" class="btn btn-primary btn-md" onclick="shared_note();">Share Note</button>
-								        <button type="button" class="btn btn-primary btn-md" onclick="window.history.go(0); return false;">Close</button>
-								      </div>
-								    </div>
-								
-								  </div>
-								</div>
-								
-								
-								</td>
+								<td><a href="{% url 'share_page' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" id="shr" data-toggle="tooltip" title="Share Notes">Share Notes</button></a></td>
 								<!-- <td><button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#update_notes" id="up">Update Note</button></td> -->
-								<td><a href="{% url 'update_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up">Update Note</button></a></td>
+								<td><a href="{% url 'update_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Update Notes">Update Note</button></a></td>
 								
-								<td><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#confirm-delete" id="del">Delete Note</button><div class="modal fade" id="confirm-delete" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
-								    <div class="modal-dialog">
+								<td><a href="{% url 'delete_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Delete Notes">Delete Note</button></a></td>
+								  <!--   <div class="modal-dialog">
 								        <div class="modal-content">
 								            <div class="modal-header">
 								                <center><h4 class="modal-title">Are You Sure ?</h4></center>
@@ -91,10 +53,10 @@
 								                <a class="btn btn-danger btn-ok" href="{% url 'del_note' %}?id={{n.n_id}}" >Delete</a></center>
 								            </div>
 								        </div>
-								    </div></div></td>
+								    </div></div> --></td>
 								    
-								<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md">View Note</button></a></td>
-								<td><button type="button" class="btn btn-primary btn-md" onclick="m_complete();">Mark is Complete</button></td>
+								<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes">View Note</button></a></td>
+								<td><a href="{% url 'mark_comp' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="Mark as Complete">Mark as Complete</button></a></td>
 							</tr>
 							{% endfor %}
 							
@@ -150,6 +112,7 @@ function shared_note()
 			      showCancelButton: false,
 			      closeOnConfirm: true
 			    });	
+    			
 			}
 			else{
 				
@@ -173,6 +136,15 @@ function m_complete()
 	 	
 }
 
+if ('{{mark}}'=='1'){
+	
+	alert("clicked on mark comp")
+	$('#{{nid}}').hide();
+	
+}
+
 </script>
+
+</head></html>
 
 {% include 'UserMgnt/footer.html' %}

@@ -1,0 +1,93 @@
+{% include 'UserMgnt/header.html' %}
+{% include 'UserMgnt/dash_top.html' %}
+
+
+ <div class="container">
+ 
+	 <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title">Update Note</h4>
+	      </div>
+	  <div class="modal-body">
+								      	 <div class="form-group" id="">
+									  		<label class="col-sm-3">Select User:</label>
+											<div class ="col-sm-9" id="sel_usr1">
+												<select class="form-control" name="sel_usr" id="sel_usr" multiple>
+													
+													{% for usr in all_u %}
+														<option value="{{ usr.username}}">{{ usr.username}}</option>
+													{% endfor %}
+												</select>
+											</div>
+											<label></label>
+										</div><br>
+										<div class="form-group" id="">
+									  		<label class="col-sm-3">Note Content:</label>
+											<div class ="col-sm-9" id="txt_cnt">
+												<textarea class="form-control " rows="4" cols="" name="nt_cnt_s" id="nt_cnt_s" disabled>{{note_data.n_content}}</textarea>
+											</div>
+											<label></label>
+										</div>
+								        
+								      </div>
+								      <div class="modal-footer">
+								        <button type="button" class="btn btn-primary btn-md" onclick="shared_note();" >Share Note</button>
+								        <button type="button" class="btn btn-primary btn-md" onclick="window.history.go(-1); return false;">Close</button>
+								      </div>
+	    </div>
+	 </div>  
+
+								
+								
+	<script>
+	
+	
+	function shared_note()
+	{
+		
+		
+		var s_nt = document.getElementById("nt_cnt_s").value;
+		
+		var values = $('#sel_usr').val();
+	 
+	    var usr = JSON.stringify(values);
+	 
+	    
+		$.ajax({
+			url: "{% url 'notes.views.shared' %}",
+			type: "GET",
+			async:false,
+			data: {'usr':usr,'n_cnt':s_nt},
+			success: function(data){
+				console.log("Data",data);
+				if (data.status == 200)
+				{	
+	    			swal({
+				      title: "Done!", 
+				      text: " Note has been saved Successfully!", 
+				      html: true,
+				      type:"success",
+				      confirmButtonText: 'OK',
+				      showCancelButton: false,
+				      closeOnConfirm: true
+				    });	
+	    			
+				}
+				else{
+					
+					alert("something goes wrong");
+				}		
+			},
+		
+			error: function(data)
+			{
+			//console.log(data);
+			}
+			});
+	location.reload();
+		
+		
+	}
+	
+	</script>							
+								

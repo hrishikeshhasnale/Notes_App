@@ -26,7 +26,6 @@ def mynotes(request):
     context['note']=m_nt
     context['uname']=uname
     
-    
     return render(request,'notes/mynotes.html',context)
 
 
@@ -73,17 +72,27 @@ def update_note(request):
     
     return render(request,'notes/update.html',context)
             
+def delete_nt(request):
     
+    print("in delete page view")
+    context=dict()
+    
+    id = request.GET['id']
+    note = notes.objects.get(n_id = id)
+    context['note_data']=note
+    context['id']=id
+    return render(request,'notes/delete.html',context)
+        
 def del_note(request):
     
     print("in del note")
     context=dict()
     
     id=request.GET['id']        
-    
+    print("del id-",id)
     delt=notes(n_id=id).delete()
 
-    return render(request,'notes/mynotes.html',context) 
+    return render(request,'notes/delete.html',context) 
 
 
 
@@ -102,6 +111,17 @@ def view_note(request):
     return render(request,'notes/view_note.html',context)
 
 
+def share_page(request):
+    
+    context=dict()
+    id = request.GET['id']
+    note = notes.objects.get(n_id = id)
+    context['note_data']=note
+    all_users = User.objects.all()
+    context['all_u']=all_users
+    
+    return render(request,'notes/share.html',context)
+
 @ajax
 def shared(request):
     
@@ -112,17 +132,17 @@ def shared(request):
     cnt = request.GET['n_cnt']
     
     data = json.loads(s_usr)
-    print("s usr-",data)
-    print("n cnt-",cnt)
+#     print("s usr-",data)
+#     print("n cnt-",cnt)
     nt = notes.objects.filter(n_content=cnt)
     for i in nt:
         owner_id=i.owner_id_id
         s_nt_owner=i.n_owner
         s_nt_id=i.n_id
         n_name = i.n_name
-    print("nameeeeeee-",n_name)
+#     print("nameeeeeee-",n_name)
     for i in data:
-        print("iiiiii",i)   
+#         print("iiiiii",i)   
     #   storing note in shared note table of specific user  
         snt = shared_notes(n_id_id = s_nt_id , n_shrd_name=n_name , n_shrd_owner=s_nt_owner , n_shrd_with=i , owner_id_id=owner_id).save()
         
@@ -137,3 +157,14 @@ def shared(request):
         
 #     return render(request,'notes/shared_notes.html',context)
     
+    
+def mark_comp(request):
+    
+    print("in mark view")
+    context=dict()
+    nid = request.GET['id']    
+    n=notes.objects.filter(n_id=nid).update(mark_complete=1)
+    context['mark']=1
+    context['nid']=nid
+#     need to pass all notes
+    return render(request,'notes/mynotes.html',context)

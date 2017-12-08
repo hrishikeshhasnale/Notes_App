@@ -13,17 +13,13 @@ background-color: transparent	;
 		  <div class="container-fluid">
 		    <div class="navbar-header">
 		      
-		      <a class="navbar-brand" href="#" style="color:;">Notes App</a>
+		      <a class="navbar-brand" href="#" style="color:;"><b>Notes App</b></a>
 		    </div>
-		   <!--  <ul class="nav navbar-nav">
-		      <li class="active"><a href="#">Home</a></li>
-		      <li><a href="#"></a></li>
-		      <li><a href="#">Page 2</a></li>
-		    </ul> -->
+		
 		    <ul class="nav navbar-nav navbar-right">
-		    	<li><a style="text-transform:capitalize;color:#FF6347;"><i class="fa fa-user" aria-hidden="true"></i> {{username}}</a></li>
-		      	<li><a href="{% url 'login' %}"><i class="fa fa-sign-out" aria-hidden="true"color:black;"></i> Logout</a></li>
+		    	<li><a style="text-transform:capitalize;color:#FF6347;" data-toggle="tooltip" title="User"><i class="fa fa-user" aria-hidden="true"></i> {{username}}</a></li>
+		      	<li><a href="{% url 'login' %}" data-toggle="tooltip" title="Logout"><i class="fa fa-sign-out" aria-hidden="true"color:black;"></i> Logout</a></li>
 		    </ul>
 		  </div>
 		  <img class="img-responsive" src=" /static/images/footer.png" width="100%" height="100px">
-		</nav>
+</nav>
