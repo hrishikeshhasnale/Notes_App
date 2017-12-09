@@ -1,32 +1,25 @@
 {% include 'UserMgnt/header.html' %}
  {% include 'UserMgnt/dash_top.html' %}
- <div class="container">
- 
-	 <div class="modal-content">
-	      <div class="modal-header">
-	        <h4 class="modal-title">View Note</h4>
-	      </div>
-	      <div class="modal-body">
-		      <div class="form-group" id="">
-			  		<label class="col-sm-3">Note Name:</label>
-						<div class ="col-sm-8" id="">
-							<input class="form-control " type="text" id="nt_nm_up" name="nt_nm_up" value="{{note_data.n_name}}" disabled>
-									
-						</div>
-						<label></label>
+
+<div class="container">
+	<div class="modal-content">
+		<div class="modal-header">
+	    	<h4 class="modal-title" style="text-transform:capitalize;color:#FF6347;">View Note</h4>
+	    </div>
+	    <div class="modal-body">
+			<div class="form-group" id="">
+				<label class="col-sm-3">Note Name:</label>
+					<div class ="col-sm-8" id="">
+						<input class="form-control " type="text" id="nt_nm_up" name="nt_nm_up" value="{{note_data.n_name}}" disabled>
+					</div>
+					<label></label>
 			 </div><br>
 				<label class="col-sm-3" style="margin-right:15px;">Note Contents:</label>
 				<textarea class="form-control " name="nt_cnt_up" id="nt_cnt_up" style="width:350px;height:100px;" disabled>{{note_data.n_content}}</textarea>
-	      </div>
-	       <div class="modal-footer">
+		</div>
+		<div class="modal-footer">
 		 		<button type="button" class="btn btn-primary btn-md" onclick="window.history.go(-1); return false;">Close</button>
-	      </div>
-	     
-	  </div>
- </div>   
+		</div>
+	</div>
+</div>   
 
-	 
-	 <script>
-	
-	 
-	 </script>

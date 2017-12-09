@@ -21,4 +21,5 @@ urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^', include('UserMgnt.urls')),
     url(r'^notes/', include('notes.urls')),
+
 ]

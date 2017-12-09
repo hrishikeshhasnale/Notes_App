@@ -7,7 +7,7 @@
 				<form class="form-layout" method="POST" action="{% url 'acc_reg'%}">
 					{% csrf_token %}
 					<p class="text-center mb30" id="">
-						<a data-toggle="tooltip" data-placement="bottom" >Welcome to <a style="color:#FF6347;">Notes App</a></a>
+						<b data-toggle="tooltip" data-placement="bottom" >Welcome to <b style="color:#FF6347;">Notes App</b></b>
 					</p>
 					<p class="text-center mb30">
 						Create New Account
@@ -15,7 +15,7 @@
 					
 					
 					{% if smsg %}
-						<div class="alert alert-success" id=""><h3><a style="color:#000000;">Hello,</a> {{smsg}}</h3><a id="click_log" href="{% url 'login'%}" style="color : black;">Click Here To Log In </a></div>
+						<div class="alert alert-success" id=""><h3><b style="color:#000000;">Hello,</b> {{smsg}}</h3><a id="click_log" href="{% url 'login'%}" style="color : black;">Click Here To Log In </a></div>
 					{% endif %}
 					{% if msg %}
 						<div class="alert alert-danger" id="">{{msg}}</div>
@@ -46,7 +46,7 @@
 		</div>
 		
 		<center><div class="col-md-7" style="margin-top:10%">
-			<h3>Already have an account ?</h3> <p><a id="click_log" href="{% url 'login'%}"  ><br><h4 style="color:#FF6347;">Log In</h4></a></p>
+			<h1>Already have an account ?</h1> <p><a id="click_log" href="{% url 'login'%}"  ><br><h2 style="color:#FF6347;">Log In</h2></a></p>
 		</div></center>
 	</div>
 </div> 

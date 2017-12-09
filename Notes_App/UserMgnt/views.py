@@ -184,16 +184,6 @@ def forgot_pass_change(request):
         context['emsg']="Please Enter All details."
         return render(request, 'UserMgnt/forgot_pass.html',context)
     
-    
-# def dash_back(request):
-#     
-#     context=dict()
-#     dash_back = request.GET['dash']
-#     print("in dash back",dash_back)
-#     if dash_back=='1':
-#         print("in if")
-#         return render(request,'UserMgnt/dashboard.html',context)
-#         
 
 
 # creating new note and saving it in notes table
@@ -208,7 +198,7 @@ def save_note(request):
     uid=u.id
     note = notes(n_name=n_name,n_owner=crnt_user,n_content=n_cnt,owner_id_id=uid,mark_complete=0)
     note.save()
-    print("note saved")
+    print("note has been created")
         
     
     
