@@ -72,16 +72,6 @@ def update_note(request):
     
     return render(request,'notes/update.html',context)
             
-def delete_nt(request):
-    
-    print("in delete page view")
-    context=dict()
-    
-    id = request.GET['id']
-    note = notes.objects.get(n_id = id)
-    context['note_data']=note
-    context['id']=id
-    return render(request,'notes/delete.html',context)
    
 @ajax        
 def del_note(request):
@@ -142,7 +132,7 @@ def shared(request):
         s_nt_id=i.n_id
         n_name = i.n_name
         mark_comp = i.mark_complete
-#     print("nameeeeeee-",n_name)
+        print("mark-",mark_comp)
     for i in data:
 #         print("iiiiii",i)   
     #   storing note in shared note table of specific user  
@@ -152,6 +142,7 @@ def shared(request):
     #   sharing note with specific user  
         u = User.objects.get(username=i)
         uid=u.id
+        print("mark 2-",mark_comp)
         note = notes(n_name=n_name ,n_owner=s_nt_owner,n_content=cnt,owner_id_id=uid,mark_complete=mark_comp)
         note.save()
      
@@ -164,7 +155,12 @@ def mark_comp(request):
     
     print("in mark view")
     context=dict()
-    nid = request.GET['nid']    
+    nid = request.GET['nid'] 
+#     note = notes.objects.filter(n_id=nid)
+#     for i in note:
+#         n_name=i.n_name
+#         print("n name-",n_name)   
+#     n=notes.objects.filter(n_name=n_name).update(mark_complete=1)
     n=notes.objects.filter(n_id=nid).update(mark_complete=1)
     mark=1
     nid=nid

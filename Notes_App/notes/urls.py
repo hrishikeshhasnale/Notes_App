@@ -24,7 +24,6 @@ urlpatterns = [
     url(r'^s_notes/$', views.s_notes, name = 's_notes'),
     url(r'^update_nt/$', views.update_nt, name = 'update_nt'),
     url(r'^update_note/$', views.update_note, name = 'update_note'),
-    url(r'^delete_nt/$', views.delete_nt, name = 'delete_nt'),
     url(r'^del_note/$', views.del_note, name = 'del_note'),
     url(r'^view_note/$', views.view_note, name = 'view_note'),
     url(r'^share_page/$', views.share_page, name = 'share_page'),
