@@ -82,13 +82,14 @@ def delete_nt(request):
     context['note_data']=note
     context['id']=id
     return render(request,'notes/delete.html',context)
-        
+   
+@ajax        
 def del_note(request):
     
     print("in del note")
     context=dict()
     
-    id=request.GET['id']        
+    id=request.GET['nid']        
     print("del id-",id)
     delt=notes(n_id=id).delete()
 
@@ -140,31 +141,33 @@ def shared(request):
         s_nt_owner=i.n_owner
         s_nt_id=i.n_id
         n_name = i.n_name
+        mark_comp = i.mark_complete
 #     print("nameeeeeee-",n_name)
     for i in data:
 #         print("iiiiii",i)   
     #   storing note in shared note table of specific user  
-        snt = shared_notes(n_id_id = s_nt_id , n_shrd_name=n_name , n_shrd_owner=s_nt_owner , n_shrd_with=i , owner_id_id=owner_id).save()
+        snt = shared_notes(n_id_id = s_nt_id , n_shrd_name=n_name , n_shrd_owner=s_nt_owner , n_shrd_with=i , owner_id_id=owner_id,mark_complete=mark_comp).save()
         
     for i in data:
     #   sharing note with specific user  
         u = User.objects.get(username=i)
         uid=u.id
-        note = notes(n_name=n_name ,n_owner=s_nt_owner,n_content=cnt,owner_id_id=uid)
+        note = notes(n_name=n_name ,n_owner=s_nt_owner,n_content=cnt,owner_id_id=uid,mark_complete=mark_comp)
         note.save()
      
         print("note is shared")
         
 #     return render(request,'notes/shared_notes.html',context)
     
-    
+@ajax    
 def mark_comp(request):
     
     print("in mark view")
     context=dict()
-    nid = request.GET['id']    
+    nid = request.GET['nid']    
     n=notes.objects.filter(n_id=nid).update(mark_complete=1)
-    context['mark']=1
-    context['nid']=nid
+    mark=1
+    nid=nid
 #     need to pass all notes
-    return render(request,'notes/mynotes.html',context)
+#     return render(request,'notes/mynotes.html',context)
+    return {"nid":nid,'n':n}

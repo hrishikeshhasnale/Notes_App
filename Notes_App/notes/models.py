@@ -11,4 +11,4 @@ class shared_notes(models.Model):
     n_shrd_owner =  models.CharField(max_length=20)
     n_shrd_with = models.CharField(max_length=20)
     owner_id = models.ForeignKey(User,on_delete=models.CASCADE,null=True)
-    
+    mark_complete = models.IntegerField(blank=True,null=True)

@@ -10,7 +10,7 @@
 	<body>
 		<div class="panel mb25" id="mynotes_1">
 		 	<div class="container" id="mynotes_2">
-	 			<div class="table-responsive"  id="mynotes_3">
+	 			<div class="table-responsive ajax-container"  id="mynotes_3">
 	 				<table id="table" border='1' class="table table-striped table-bordered table-hover table-condensed responsive mb lead_table">
 					
 						<thead>
@@ -36,27 +36,25 @@
 								<td>{{n.n_owner}}</td>
 								<td>{{n.n_name}}</td>
 								
+							
 								
+								{% if n.mark_complete == 1 %}
+									<td><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" id="shr" data-toggle="tooltip" title="Share Notes" disabled>Share Notes</button></td>
+									<td><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Update Notes" disabled>Update Note</button></td>	
+									<td><button type="button" class="btn btn-primary btn-md" id=del" data-toggle="tooltip" title="Delete Notes" onclick="delete_note({{n.n_id}})" disabled>Delete Note</button></td>
+									<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes">View Note</button></a></td>
+									<td><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes" onclick="mark_c({{n.n_id}});" disabled>Mark as Complete</button></a></td>
+								{% endif %}
+								{% if n.mark_complete == 0 %}
 								<td><a href="{% url 'share_page' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="modal" data-target="#share_notes" id="shr" data-toggle="tooltip" title="Share Notes">Share Notes</button></a></td>
-								<!-- <td><button type="button" class="btn btn-success btn-md" data-toggle="modal" data-target="#update_notes" id="up">Update Note</button></td> -->
-								<td><a href="{% url 'update_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Update Notes">Update Note</button></a></td>
-								
-								<td><a href="{% url 'delete_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Delete Notes">Delete Note</button></a></td>
-								  <!--   <div class="modal-dialog">
-								        <div class="modal-content">
-								            <div class="modal-header">
-								                <center><h4 class="modal-title">Are You Sure ?</h4></center>
-								            </div>
-								           
-								            <div class="modal-body">
-								                <center><button type="button" class="btn btn-default"  onclick="window.history.go(0); return false;">Cancel</button>
-								                <a class="btn btn-danger btn-ok" href="{% url 'del_note' %}?id={{n.n_id}}" >Delete</a></center>
-								            </div>
-								        </div>
-								    </div></div> --></td>
-								    
-								<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes">View Note</button></a></td>
-								<td><a href="{% url 'mark_comp' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="Mark as Complete">Mark as Complete</button></a></td>
+									<td><a href="{% url 'update_nt' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" id="up" data-toggle="tooltip" title="Update Notes">Update Note</button></a></td>				
+									<td><a href=""><button type="button" class="btn btn-primary btn-md" id=del" data-toggle="tooltip" title="Delete Notes" onclick="delete_note({{n.n_id}})">Delete Note</button></a></td>
+									<td><a href="{% url 'view_note' %}?id={{n.n_id}}"><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes">View Note</button></a></td>
+									<td><button type="button" class="btn btn-primary btn-md" data-toggle="tooltip" title="View Notes" onclick="mark_c({{n.n_id}});" >Mark as Complete</button></td>
+								{% endif %}  
+									
+									
+									
 							</tr>
 							{% endfor %}
 							
@@ -74,44 +72,40 @@
 	</body>
 </html>
 
-<script>
+<script >
 
 $(document).ready(function() {
 	$('#table').DataTable({"bProcessing": true,});
-
+	
 } );
 
 
-
-function shared_note()
+function mark_c(id)
 {
 	
+	var id = id
 	
-	var s_nt = document.getElementById("nt_cnt_s").value;
-	
-	var values = $('#sel_usr').val();
- 
-    var usr = JSON.stringify(values);
- 
-    
 	$.ajax({
-		url: "{% url 'notes.views.shared' %}",
+		url: "{% url 'notes.views.mark_comp' %}",
 		type: "GET",
 		async:false,
-		data: {'usr':usr,'n_cnt':s_nt},
+		data: {'nid':id},
 		success: function(data){
 			console.log("Data",data);
 			if (data.status == 200)
 			{	
+				$("#table").html(data.content.n);
+				
     			swal({
 			      title: "Done!", 
-			      text: " Note has been saved Successfully!", 
+			      text: " Note has been Mark as Complete Successfully!", 
 			      html: true,
 			      type:"success",
 			      confirmButtonText: 'OK',
 			      showCancelButton: false,
 			      closeOnConfirm: true
 			    });	
+    			location.reload();
     			
 			}
 			else{
@@ -125,23 +119,51 @@ function shared_note()
 		//console.log(data);
 		}
 		});
-location.reload();
-	
-	
+		
 }
 
-function m_complete()
+
+function delete_note(id)
 {
-	alert("sdsds");
-	 	
+	
+	var id = id
+
+	$.ajax({
+		url: "{% url 'notes.views.del_note' %}",
+		type: "GET",
+		async:false,
+		data: {'nid':id},
+		success: function(data){
+			console.log("Data",data);
+			if (data.status == 200)
+			{	
+    			swal({
+			      title: "Done!", 
+			      text: " Note has been Deleted Successfully!", 
+			      html: true,
+			      type:"success",
+			      confirmButtonText: 'OK',
+			      showCancelButton: false,
+			      closeOnConfirm: true
+			    });	
+    			location.reload();
+    			
+			}
+			else{
+				
+				alert("something goes wrong");
+			}		
+		},
+	
+		error: function(data)
+		{
+		//console.log(data);
+		}
+		});
 }
 
-if ('{{mark}}'=='1'){
-	
-	alert("clicked on mark comp")
-	$('#{{nid}}').hide();
-	
-}
+
+
 
 </script>
 
