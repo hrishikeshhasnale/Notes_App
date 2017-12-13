@@ -46,8 +46,12 @@ def dashboard(request):
                 context['login_error']=1
                 return render(request,'UserMgnt/login.html',context)
         except(User.DoesNotExist):
-            print("in ex 1")
-            context['msg']="Username and Password are required."
+            if uname=="" and pwd=="":
+                print("in ex 1")
+                context['msg']="Username and Password are required."
+            else:
+                print("in else 1")
+                context['msg']="Invalid username or password"
             return render(request,'UserMgnt/login.html',context)
     except MultiValueDictKeyError:
         print("in ex 2")

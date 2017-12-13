@@ -17,6 +17,7 @@
 							<option value="{{ usr.username}}">{{ usr.username}}</option>
 						{% endfor %}
 						</select>
+						<label class="control-label text text-danger" id="note_usr_err"></label>
 					</div>
 				<label></label>
 			</div><br>
@@ -47,10 +48,16 @@
 		var s_nt = document.getElementById("nt_cnt_s").value;
 		
 		var values = $('#sel_usr').val();
-	 
+	 	
 	    var usr = JSON.stringify(values);
 	 
-	    
+		if(values=="")
+		{
+			
+			document.getElementById("note_usr_err").innerHTML="Please Select User.";
+			document.getElementById("sel_usr").style.borderColor="red";	
+		}
+		else{
 		$.ajax({
 			url: "{% url 'notes.views.shared' %}",
 			type: "GET",
@@ -65,10 +72,10 @@
 				      text: " Note has been saved Successfully!", 
 				      html: true,
 				      type:"success",
-				      confirmButtonText: 'OK',
 				      showCancelButton: false,
 				      closeOnConfirm: true
 				    });	
+	    			location.reload();
 	    			
 				}
 				else{
@@ -82,10 +89,18 @@
 			//console.log(data);
 			}
 			});
-	location.reload();
+		}		
+	
 		
 		
 	}
 	
+	
+	$("#sel_usr").click(function() {
+	      
+		document.getElementById("sel_usr").style.borderColor = "";
+        document.getElementById("note_usr_err").style.display="none";
+        document.getElementById("note_usr_err").innerHTML="";
+	});
 	</script>							
 								

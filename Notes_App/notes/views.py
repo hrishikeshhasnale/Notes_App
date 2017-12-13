@@ -13,16 +13,12 @@ def mynotes(request):
 #      print("in mynotes view")
     
     context=dict()
-    
     uname = request.GET['uname']
-#     print("uname",uname)
     uid = User.objects.get(username=uname)
     m_nt = notes.objects.filter(owner_id_id = uid)
     all_users = User.objects.all()
-    context['all_u']=all_users
-        
+    context['all_u']=all_users  
     for i in m_nt:
-#         print("notes",i.n_id)
         context['n_id']=i.n_id
     
     context['note']=m_nt
@@ -83,7 +79,7 @@ def del_note(request):
     context=dict()
     
     id=request.GET['nid']        
-    print("del id-",id)
+#     print("del id-",id)
     delt=notes(n_id=id).delete()
     print("note has been deleted")
     
@@ -113,6 +109,7 @@ def share_page(request):
     context['note_data']=note
     all_users = User.objects.all()
     context['all_u']=all_users
+    context['username']=note.n_owner
     
     return render(request,'notes/share.html',context)
 
@@ -128,7 +125,7 @@ def shared(request):
     cnt = request.GET['n_cnt']
     
     data = json.loads(s_usr)
-
+    
     nt = notes.objects.filter(n_content=cnt)
     for i in nt:
         owner_id=i.owner_id_id
